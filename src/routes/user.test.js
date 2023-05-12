@@ -41,6 +41,7 @@ describe("get a specific /user tests", () => {
 
 describe("get shows list belonging to /user/:id/shows tests", () => {
     test("GET /user/1/shows", async () => {
+        const putResponse = await request(app).put("/user/1/shows/1").send();
         const response = await request(app).get("/user/1/shows");
         expect(response.status).toBe(200)
         expect(Array.isArray(response.body)).toBe(true)
@@ -60,6 +61,7 @@ describe("put shows in users show list /user/:id/shows tests", () => {
 
          // Retrieve the updated user's show list
     const updatedUserResponse = await request(app).get("/user/1/shows");
-        expect(updatedUserResponse.body.length).toBe(showsLength + 1)
+        expect(updatedUserResponse.body.length).toBe(1)
+        expect(updatedUserResponse.body[0].title).toBe("King of Queens")
     })
 })
