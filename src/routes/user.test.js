@@ -1,22 +1,39 @@
 const request = require("supertest");
-const user = require("../../models/User");
+// const User = require("../../models/User");
 const app = require("../app")
 
 
-describe("/restaurants tests", () => {
-    // CREATE TESTS HERE
-test("GET /restaurant", async () => {
-    const response = await request(app).get("/restaurants");
-    expect(response.status).toBe(200)
+describe("get all /user tests", () => {
+    test("GET /user", async () => {
+        const response = await request(app).get("/user");
+        expect(response.status).toBe(200)
+    })
+
+    test("GET /user returns an array", async () => {
+        const response = await request(app).get("/user");
+        expect(Array.isArray(response.body)).toBe(true)
+    })
+
+    test("GET /user returns correct number of users", async () => {
+        const response = await request(app).get("/user")
+        expect(response.body.length).toBe(2)
+    })
+
 })
 
-test("GET returns an array from /restaurants", async () => {
-    const response = await request(app).get("/restaurants");
-    expect(Array.isArray(response.body)).toBe(true)
-})
+describe("get a specific /user tests", () => {
+    test("GET /user/1", async () => {
+        const response = await request(app).get("/user/1");
+        expect(response.body.id).toBe(1)
+        expect(response.body.username).toBe("testUser@gmail.com")
+    })
 
-test("GET returns correct number of restaurants from /restaurants", async () => {
-    const response = await request(app).get("/restaurants");
-    expect(response.body.length).toBe(3)
-})
+    test("GET /user/2", async () => {
+        const response = await request(app).get("/user/2");
+        expect(response.body.id).toBe(2)
+        expect(response.body.username).toBe("someone@gmail.com")
+    })
+
+  
+
 })
