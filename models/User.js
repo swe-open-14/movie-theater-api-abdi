@@ -8,8 +8,6 @@ const User = db.define("users", {
     password: DataTypes.STRING
 });
 
-User.hasMany(Show)
-Show.belongsTo(User)
 
 //exports
 module.exports = User;
