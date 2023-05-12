@@ -11,7 +11,17 @@ showRouter.get("/", async (req,res,next) => {
     } catch (error) {
         next(error)
     }
+})
 
+
+showRouter.get("/:id", async (req,res,next) => {
+    try {
+        const id = req.params.id
+        const show = await Show.findByPk(id);
+        res.json(show)
+    } catch (error) {
+        next(error)
+    }
 })
 
 
