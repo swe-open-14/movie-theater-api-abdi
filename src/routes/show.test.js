@@ -34,3 +34,19 @@ describe("get a specific /show tests", () => {
         expect(response.body.genre).toBe("Sitcom")
     })
 })
+
+describe("get a specific genre /show/genre tests", () => {
+    test("GET /show/Drama", async () => {
+        const response = await request(app).get("/show/genres/Drama");
+        expect(response.status).toBe(200)
+        expect(response.body[0].genre).toBe("Drama")
+        expect(response.body.length).toBe(3)
+    })
+
+    test("GET /show/genres/Sitcom", async () => {
+        const response = await request(app).get("/show/genres/Sitcom");
+        expect(response.status).toBe(200)
+        expect(response.body[0].genre).toBe("Sitcom")
+        expect(response.body.length).toBe(3)
+    })
+})
