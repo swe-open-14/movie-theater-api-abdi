@@ -46,3 +46,20 @@ describe("get shows list belonging to /user/:id/shows tests", () => {
         expect(Array.isArray(response.body)).toBe(true)
     })
 })
+
+// THIS TEST CHECKS WHETHER THE PUT REQUEST ADDS SHOWS TO THE LIST ASSCOCIATED WITH THE USER
+
+describe("put shows in users show list /user/:id/shows tests", () => {
+    test("PUT /user/1/shows/1", async () => {
+        // using these to compare whether a show was indeed added via comparison of length.
+        const userShows = await request(app).get("/user/1/shows");
+        const showsLength = userShows.body.length;
+    
+        // Make the PUT request to add a show 
+        const putResponse = await request(app).put("/user/1/shows/1").send();
+
+         // Retrieve the updated user's show list
+    const updatedUserResponse = await request(app).get("/user/1/shows");
+        expect(updatedUserResponse.body.length).toBe(showsLength + 1)
+    })
+})

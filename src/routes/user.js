@@ -30,13 +30,32 @@ userRouter.get("/:id", async (req,res,next) => {
 userRouter.get("/:id/shows", async (req, res, next) => {
     try {
       const id = req.params.id;
-      const userid = await User.findByPk(id);
-      if (!userid) {
+      const userId = await User.findByPk(id, {include: Show});
+      if (!userId) {
         return res.status(404).send("User not found");
       }
-      const shows = await userid.getShows();
-      console.log("shows:", shows);
-      res.json(shows);
+      res.json(userId.shows);
+    } catch (error) {
+      
+    }
+  });
+
+  userRouter.put("/:id/shows/:showId", async (req, res, next) => {
+    try {
+      const {id ,showId} = req.params;
+      const user = await User.findByPk(id);
+// check if user exist
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+// check if show exist
+      const existingShow = await Show.findByPk(showId);
+      if (!existingShow) {
+        return res.status(404).send("Show not found");
+      }
+      await user.addShows(existingShow)
+      res.status(200).send("Show updated successfully");
     } catch (error) {
       next(error);
     }
